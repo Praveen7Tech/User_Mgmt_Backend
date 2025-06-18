@@ -30,7 +30,6 @@ const Register = async(req,res)=>{
         })
 
         const token = generateToken(user._id)
-        console.log("tok",user)
 
         res.status(200).json({
             user:{
@@ -46,8 +45,32 @@ const Register = async(req,res)=>{
     }
 }
 
+const Login = async(req,res)=>{
+    try {
+        const {email,password} = req.body;
+        const existUser = await User.findOne({email})
+        if(!existUser) return res.status(400).json({message : "User not Found"})
+        const validatePass = await bcrypt.compare(password, existUser.password)
+        if(!validatePass) return res.status(400).json({message : "Invalid credentials"})
+        
+        const token = generateToken(existUser._id)
+        res.status(200).json({
+            user:{
+                _id : existUser._id,
+                name : existUser.name,
+                email : existUser.email,
+                role : existUser.role
+            },
+            token
+        })
+    } catch (error) {
+        console.log("Error in login",error)
+    }
+}
+
 
 
 module.exports = {
-    Register
+    Register,
+    Login
 }
