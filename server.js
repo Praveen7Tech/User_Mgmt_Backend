@@ -8,12 +8,14 @@ const cors = require("cors")
 const authRoute = require("./routes/authRouter")
 const userRoute = require("./routes/userRouter")
 const adminRoute = require("./routes/adminRouter")
+const path = require("path") 
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
-app.use("/uploads", express.static("uploads"))
+app.use("/uploads", express.static(path.join(__dirname, "public/uploads")))
+
 
 app.use("/api/auth",authRoute)
 app.use("/api/user",userRoute)
