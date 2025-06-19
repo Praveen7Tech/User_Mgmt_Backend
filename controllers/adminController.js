@@ -36,7 +36,29 @@ const AdminLogin = async(req,res)=>{
     }
 }
 
+const GetUsersData = async(req,res)=>{
+    try {
+        const UsersData = await User.find()
+        return res.status(200).json(UsersData)
+    } catch (error) {
+        console.log("fetch error",error)
+    }
+}
+
+
+const FetchUser = async(req,res)=>{
+    try {
+        const userId = req.params.id;
+
+        const data = await User.findById(userId)
+        return res.status(200).json({data})
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 module.exports = {
-    AdminLogin
+    AdminLogin,
+    GetUsersData,
+    FetchUser
 }
