@@ -29,7 +29,7 @@ const Register = async(req,res)=>{
             password:hashedPassword
         })
 
-        const token = generateToken(user._id)
+        const Token = generateToken(user._id)
 
         res.status(200).json({
             user:{
@@ -38,7 +38,7 @@ const Register = async(req,res)=>{
                 email:user.email,
                 role:user.role,
             },
-            token
+            token : Token
         })
     } catch (error) {
         console.log("Error in user register",error)
