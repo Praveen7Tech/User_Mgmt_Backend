@@ -38,7 +38,7 @@ const AdminLogin = async(req,res)=>{
 
 const GetUsersData = async(req,res)=>{
     try {
-        const UsersData = await User.find()
+        const UsersData = await User.find({role:"user"})
         return res.status(200).json(UsersData)
     } catch (error) {
         console.log("fetch error",error)
@@ -57,8 +57,34 @@ const FetchUser = async(req,res)=>{
     }
 }
 
+const EditUser = async(req,res)=>{
+    try {
+        const userId = req.params.id
+        const {editName} = req.body
+        const user = await User.findByIdAndUpdate(
+            userId,
+            {name : editName}
+        )
+        return res.status(200).json({message : "User update success."})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const DeleteUser = async(req,res)=>{
+    try {
+      const userId = req.params.id
+      await User.findByIdAndDelete(userId)
+      return res.status(200).json({message : "User deletion successfull"})  
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 module.exports = {
     AdminLogin,
     GetUsersData,
-    FetchUser
+    FetchUser,
+    EditUser,
+    DeleteUser
 }
