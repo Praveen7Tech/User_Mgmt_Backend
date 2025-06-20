@@ -38,7 +38,7 @@ const AdminLogin = async(req,res)=>{
 
 const GetUsersData = async(req,res)=>{
     try {
-        const UsersData = await User.find({role:"user"})
+        const UsersData = await User.find({role:"user"}).sort({createdAt : -1})
         return res.status(200).json(UsersData)
     } catch (error) {
         console.log("fetch error",error)
@@ -81,10 +81,29 @@ const DeleteUser = async(req,res)=>{
     }
 }
 
+const CreateUser = async(req,res)=>{
+    try {
+        const {name,email,password} = req.body
+        const UserExist = await User.findOne({email})
+        if(UserExist) return res.status(400).json({message : "User with this email already exist."})
+        const salt = await bcrypt.genSalt(10)
+        const HashPass = await bcrypt.hash(password, salt)    
+        await User.create({
+            name,
+            email,
+            password: HashPass
+        })
+        return res.status(200).json({message : "User craetion successfull"})
+    } catch (error) {
+        console.log("error in creating user",error)
+    }
+}
+
 module.exports = {
     AdminLogin,
     GetUsersData,
     FetchUser,
     EditUser,
-    DeleteUser
+    DeleteUser,
+    CreateUser
 }

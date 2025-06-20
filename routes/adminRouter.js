@@ -8,6 +8,7 @@ router.get("/getUsersData",adminController.GetUsersData)
 router.get("/getProfileData/:id",adminController.FetchUser)
 router.put("/editUser/:id",adminController.EditUser)
 router.delete("/deleteUser/:id",adminController.DeleteUser)
+router.post("/createUser",adminController.CreateUser)
 
 
 module.exports = router
