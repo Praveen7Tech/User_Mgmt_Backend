@@ -45,8 +45,29 @@ const UploadImage = async(req,res)=>{
     }
 }
 
+const UpdateProfile = async(req,res)=>{
+    try {
+        const userData = JSON.parse(req.body.userData)
+        const userId = req.params.id
+        const file = req.file
+
+        const update = {}
+        if(userData.editName) update.name = userData.editName;
+        if(file){
+            const imageURL = `uploads/${file.filename}`
+            update.profileImage = imageURL
+        } 
+    
+        await User.findByIdAndUpdate(userId, update )
+        return res.status(200).json({message : "Profile updated successfully"})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 
 module.exports ={
     GetUserData,
-    UploadImage
+    UploadImage,
+    UpdateProfile
 }
