@@ -10,5 +10,7 @@ router.put("/editUser/:id",adminController.EditUser)
 router.delete("/deleteUser/:id",adminController.DeleteUser)
 router.post("/createUser",adminController.CreateUser)
 
+router.get("/getAdmin/:id",adminController.GetAdmin)
+
 
 module.exports = router

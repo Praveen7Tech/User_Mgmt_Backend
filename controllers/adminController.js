@@ -99,11 +99,23 @@ const CreateUser = async(req,res)=>{
     }
 }
 
+
+const GetAdmin = async(req,res)=>{
+    try {
+        const adminId = req.params.id
+        const adminData = await User.findById(adminId)
+        res.status(200).json(adminData)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 module.exports = {
     AdminLogin,
     GetUsersData,
     FetchUser,
     EditUser,
     DeleteUser,
-    CreateUser
+    CreateUser,
+    GetAdmin
 }
